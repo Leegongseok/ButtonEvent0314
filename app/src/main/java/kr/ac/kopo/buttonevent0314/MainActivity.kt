@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.Toast
 
@@ -13,7 +14,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var btn911 : Button
     lateinit var btnGallery : Button
     lateinit var btnFinish : Button
-
+    lateinit var btnListner : View.OnClickListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -23,19 +24,18 @@ class MainActivity : AppCompatActivity() {
         btn911=findViewById(R.id.button911)
         btnGallery=findViewById(R.id.buttonGallery)
         btnFinish=findViewById(R.id.buttonFinish)
+        btnListner=View.OnClickListener{
+            when(it.id){
+                R.id.buttonHome -> intent=Intent(Intent.ACTION_VIEW, Uri.parse("https://www.kopo.ac.kr/jungsu/index.do"))
+                R.id.button911 ->   intent=Intent(Intent.ACTION_VIEW, Uri.parse("   tel:/911"))
+                R.id.buttonGallery ->intent=Intent(Intent.ACTION_VIEW, Uri.parse("content://media/internal/images/media"))
+            }
+            startActivity(intent)
+        }
+        btnHome.setOnClickListener { btnListner }
+        btn911.setOnClickListener { btnListner }
+        btnGallery.setOnClickListener { btnListner }
 
-        btnHome.setOnClickListener {
-            var intent=Intent(Intent.ACTION_VIEW, Uri.parse("https://www.kopo.ac.kr/jungsu/index.do"))
-            startActivity(intent)
-        }
-        btn911.setOnClickListener {
-            var intent=Intent(Intent.ACTION_VIEW, Uri.parse("   tel:/911"))
-            startActivity(intent)
-        }
-        btnGallery.setOnClickListener {
-            var intent=Intent(Intent.ACTION_VIEW, Uri.parse("content://media/internal/images/media"))
-            startActivity(intent)
-        }
         btnFinish.setOnClickListener {
           finish()
         }
